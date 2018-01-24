@@ -1,0 +1,70 @@
+Starting parse
+Entering state 0
+Reducing stack by rule 8 (line 87):
+-> $$ = nterm calclist ()
+Stack now 0
+Entering state 1
+Reading a token: Next token is token VAR ()
+Shifting token VAR ()
+Entering state 6
+Reducing stack by rule 3 (line 63):
+   $1 = token VAR ()
+-> $$ = nterm exp ()
+Stack now 0 1
+Entering state 9
+Reading a token: Next token is token VAR ()
+Shifting token VAR ()
+Entering state 6
+Reducing stack by rule 3 (line 63):
+   $1 = token VAR ()
+-> $$ = nterm exp ()
+Stack now 0 1 9
+Entering state 16
+Reading a token: Next token is token NUMBER ()
+Shifting token NUMBER ()
+Entering state 8
+Reducing stack by rule 4 (line 65):
+   $1 = token NUMBER ()
+-> $$ = nterm exp ()
+Stack now 0 1 9 16
+Entering state 16
+Reading a token: Next token is token EOE ()
+Reducing stack by rule 7 (line 75):
+   $1 = nterm exp ()
+   $2 = nterm exp ()
+-> $$ = nterm app ()
+Stack now 0 1 9
+Entering state 11
+Reducing stack by rule 1 (line 59):
+   $1 = nterm app ()
+-> $$ = nterm exp ()
+Stack now 0 1 9
+Entering state 16
+Next token is token EOE ()
+Reducing stack by rule 7 (line 75):
+   $1 = nterm exp ()
+   $2 = nterm exp ()
+-> $$ = nterm app ()
+Stack now 0 1
+Entering state 11
+Reducing stack by rule 1 (line 59):
+   $1 = nterm app ()
+-> $$ = nterm exp ()
+Stack now 0 1
+Entering state 9
+Next token is token EOE ()
+Shifting token EOE ()
+Entering state 15
+Reducing stack by rule 10 (line 93):
+   $1 = nterm calclist ()
+   $2 = nterm exp ()
+   $3 = token EOE ()
+-> $$ = nterm calclist ()
+Stack now 0
+Entering state 1
+Reading a token: Now at end of input.
+Shifting token $end ()
+Entering state 2
+Stack now 0 1 2
+Cleanup: popping token $end ()
+Cleanup: popping nterm calclist ()
