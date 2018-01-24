@@ -14,26 +14,26 @@
 
 %%
 
-                /* Once unknown char is found, eat everything up to EOL */
-<UNKNOWN_CHAR>[^\n]*    { fprintf(
+                /* Once unknown char is found, eat everything up to EOE */
+<UNKNOWN_CHAR>[^;]*    { fprintf(
                             stderr,
-                            "ncl: unidentified token at \"%s\" on line %d\n",
+                            "lambda: unidentified token at \"%s\" on line %d\n",
                             yytext,
                             yylineno); }
 
-                /* EOL turns off unknown char state */
-<UNKNOWN_CHAR>\n        { BEGIN(INITIAL); return EOL; }
+                /* EOE turns off unknown char state */
+<UNKNOWN_CHAR>";"        { BEGIN(INITIAL); return EOE; }
 
                 /* Anything between # and EOL is comment */
 "#"         { BEGIN(COMMENT); }
 <COMMENT>.  { /* ignored */ }
-<COMMENT>\n { BEGIN(INITIAL); return EOL; }
+<COMMENT>\n { BEGIN(INITIAL); return COMMENT_LINE; }
 
-\n          { return EOL; }
+";"         { return EOE; }
 "("         { return L_BRACKET; }
 ")"         { return R_BRACKET; }
 
-[ \t\r]+    { /* Skip blanks */ }
+[ \t\r\n]+    { /* Skip blanks */ }
 
                 /* Number */
 0|[1-9][0-9]*   { yylval.n = atoi(yytext);

@@ -33,7 +33,7 @@ void yyerror(char* s)
 
         /* Return value by lexer's rule, which is part of yylex() */
         /* Coded as C enum in parser header */
-%token EOL L_BRACKET R_BRACKET VAR LAMBDA DOT
+%token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET VAR LAMBDA DOT
 %token <n> NUMBER
 
         /* Associativity and precedence, not applicable here */
@@ -56,7 +56,7 @@ void yyerror(char* s)
 
 
 exp:
-    exp exp
+    app
     |
     lambda
     |
@@ -71,6 +71,9 @@ lambda:
     LAMBDA VAR DOT exp
 ;
 
+app:
+    exp exp
+;
 
         /****************    Parser main loop ***************/
 
@@ -83,15 +86,15 @@ calclist:
          */
   %empty
   |
-  calclist EOL {
-    /* nothing to do? */
+  calclist COMMENT_LINE {
+    // nothing to do
   }
   |
-  calclist exp EOL {
+  calclist exp EOE {
     //ncl_append_inst($2);
   }
   |
-  calclist error EOL {
+  calclist error EOE {
     /* Using yyerrok allows recovery from syntax error and thus
      * checking on later lines is possible */
     yyerrok;
