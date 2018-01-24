@@ -13,5 +13,11 @@ tags:
 edit:
 	vim -c 'vsplit|b2' lexer.l parser.y
 
+test: lambda
+	rm -f tests/*.txt; \
+	for LAM in tests/*.lam; do \
+		cat "$$LAM" | ./lambda 2> tests/`basename $$LAM .lam`.txt; \
+	done
+
 clean:
 	rm -f *.tab.[hc] *.yy.[hc] *.o *~ lambda *.exe *.stackdump tags parser.output
