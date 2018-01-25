@@ -1,0 +1,10 @@
+# Combinators in SKI calculus and a few expressions
+
+# I
+/x . x;
+
+# K
+/q . /i . q;
+
+# S
+/x./y./z.(x z)(y z);
