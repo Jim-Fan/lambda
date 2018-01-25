@@ -40,7 +40,7 @@
                   return NUMBER;
                 }
 
-[a-z]       { return VAR; }
+[a-z]       { yylval.c = yytext[0]; return VAR; }
 "."         { return DOT; }
 "/"         { return LAMBDA; }
 

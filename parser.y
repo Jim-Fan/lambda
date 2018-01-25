@@ -20,6 +20,9 @@ void yyerror(char* s)
     fprintf(stderr, "lambda: syntax error on line %d\n", yylineno);
 }
 
+    /* For gdb capture */
+struct node* TOP = NULL;
+
 %}
 
         /* typedef of YYSTYPE i.e. type of yylval */
@@ -29,11 +32,14 @@ void yyerror(char* s)
     unsigned int op;
     unsigned int e;
     unsigned int* a;
+    char c;
+    struct node* nd;
 }
 
         /* Return value by lexer's rule, which is part of yylex() */
         /* Coded as C enum in parser header */
-%token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET VAR LAMBDA DOT
+%token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET LAMBDA DOT
+%token <c> VAR
 %token <n> NUMBER
 
         /* Associativity and precedence, not applicable here */
@@ -42,12 +48,9 @@ void yyerror(char* s)
 /* %left TIMES DIV */
 
         /* Map data type of each grammatical construct */
-/*
-%type <bif> bif
-%type <op> op
-%type <e> scalar exp
-%type <a> array
-*/
+%type <nd> exp
+%type <nd> app
+%type <nd> lambda
 
         /* Top level production rule */
 %start calclist
@@ -60,19 +63,19 @@ exp:
     |
     lambda
     |
-    VAR
+    VAR         { $$ = new_var_node($1); }
     |
-    NUMBER
+    NUMBER      { $$ = new_num_node($1); }
     |
-    L_BRACKET exp R_BRACKET
+    L_BRACKET exp R_BRACKET     { $$ = $2; }
 ;
 
 lambda:
-    LAMBDA VAR DOT exp
+    LAMBDA VAR DOT exp  { $$ = new_lambda_node(new_var_node($2), $4); }
 ;
 
 app:
-    exp exp
+    exp exp     { $$ = new_app_node($1, $2); }
 ;
 
         /****************    Parser main loop ***************/
@@ -91,7 +94,7 @@ calclist:
   }
   |
   calclist exp EOE {
-    //ncl_append_inst($2);
+    TOP = $2;
   }
   |
   calclist error EOE {
