@@ -6,7 +6,7 @@ Stack now 0
 Entering state 1
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 6
+Entering state 7
 Reducing stack by rule 3 (line 63):
    $1 = token VAR ()
 -> $$ = nterm exp ()
@@ -17,7 +17,7 @@ Shifting token L_BRACKET ()
 Entering state 5
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 6
+Entering state 7
 Reducing stack by rule 3 (line 63):
    $1 = token VAR ()
 -> $$ = nterm exp ()
@@ -58,7 +58,7 @@ Shifting token L_BRACKET ()
 Entering state 5
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 6
+Entering state 7
 Reducing stack by rule 3 (line 63):
    $1 = token VAR ()
 -> $$ = nterm exp ()
