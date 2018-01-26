@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <setjmp.h>
 #include "lambda.h"
+
+static struct binding* BINDING_HEAD = NULL;
+static jmp_buf eval_jbuf;
 
 struct node* new_node(NODE_TYPE node_type)
 {
@@ -152,5 +156,102 @@ void free_node(struct node* exp)
 
 void handle_syntax_tree(struct node* exp)
 {
+    struct node* result = eval(exp);
+    if (result != NULL) pprint(result);
     free_node(exp);
+}
+
+struct node* _eval(struct node* exp)
+{
+    struct binding* b = BINDING_HEAD;
+
+    if (exp->node_type == NODE_TYPE_VAR)
+    {
+        // bound variable: look up binding list using var_id
+        if (exp->is_bound)
+        {
+            while (b != NULL)
+            {
+                if (b->var_id == exp->bound_by) return b->value;
+                b = b->next;
+            }
+
+            // TODO: Verify
+            return exp;
+        }
+
+        // free variable: eval to itself
+        else
+        {
+            return exp;
+        }
+    }
+    else if (exp->node_type == NODE_TYPE_LAMBDA)
+    {
+        // nothing to do, really?
+        return exp;
+    }
+    else if (exp->node_type == NODE_TYPE_APP)
+    {
+        // consider exp has the form: E1 E2
+
+        // reduce E1 to the form of /k.E3 so that new binding
+        // can be made
+        struct node* E1 = _eval(exp->left);
+        struct node* E2 = _eval(exp->right);
+
+        // if E1 is free, further eval is no possible
+        // otherwise it is bound, thus E1 is lambda construct
+        // TODO: returning exp hides eval result E2
+        //       not necessarily, modify pprint to do binding lookup
+        //       on bound var
+        if (E1->node_type == NODE_TYPE_VAR && E1->is_bound == false) {
+            return exp;
+        }
+
+        if (E1->node_type != NODE_TYPE_LAMBDA) {
+            // TODO: semantics error, should long jump back to eval()
+            //       since this is inside recursion
+            printf("lambda: expression is not applicable:\n");
+            pprint(E1);
+            longjmp(eval_jbuf, 1);
+        }
+
+        // create new binding k to E2
+        BINDING_HEAD = (struct binding*) malloc(sizeof(struct binding));
+        BINDING_HEAD->next = b;
+        BINDING_HEAD->var_id = E1->left->var_id;
+        BINDING_HEAD->value = E2;
+
+        // evaluate body of E1, that is, E3
+        return _eval(E1->right);
+    }
+    else if (exp->node_type == NODE_TYPE_NUMBER)
+    {
+        // nothing to do
+        return exp;
+    }
+}
+
+struct node* eval(struct node* exp)
+{
+    // clear binding from previous eval
+    if (BINDING_HEAD != NULL)
+    {
+        struct binding* b = BINDING_HEAD;
+        while (b != NULL)
+        {
+            BINDING_HEAD = BINDING_HEAD->next;
+            free(b);
+            b = BINDING_HEAD;
+        }
+    }
+    BINDING_HEAD = NULL;
+
+    if (setjmp(eval_jbuf) != 0)
+    {
+        // error during recursive eval
+        return NULL;
+    }
+    return _eval(exp);
 }

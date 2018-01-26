@@ -23,6 +23,12 @@ struct node {
     struct node* right;
 };
 
+struct binding {
+    unsigned int var_id;
+    struct node* value;
+    struct binding* next;
+};
+
 struct node* new_node(NODE_TYPE node_type);
 
 struct node* new_num_node(unsigned int n);
@@ -36,4 +42,8 @@ void pprint(struct node* exp);
 
 void free_node(struct node* exp);
 void handle_syntax_tree(struct node* exp);
+
+struct node* apply(struct node* lambda, struct node* arg);
+struct node* _eval(struct node* exp);
+struct node* eval(struct node* exp);
 #endif
