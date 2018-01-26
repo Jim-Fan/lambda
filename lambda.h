@@ -3,6 +3,7 @@
 
 #include "parser.tab.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef enum {
     NODE_TYPE_NUMBER,
@@ -30,4 +31,6 @@ struct node* new_lambda_node(struct node* var, struct node* exp);
 void bound_var(struct node* var, struct node* exp);
 struct node* new_app_node(struct node* exp1, struct node* exp2);
 
+void _pprint(unsigned int depth, struct node* exp);
+void pprint(struct node* exp);
 #endif

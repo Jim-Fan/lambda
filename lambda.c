@@ -85,3 +85,42 @@ struct node* new_app_node(struct node* exp1, struct node* exp2)
     nd->right = exp2;
     return nd;
 }
+
+void _pprint(unsigned int depth, struct node* exp)
+{
+    if (exp->node_type == NODE_TYPE_VAR)
+    {
+        for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
+        printf(
+            "VAR %c(%d, %s %d)\n",
+            exp->var_name,
+            exp->var_id,
+            (exp->is_bound ? "bound" : "free"),
+            exp->bound_by,
+            exp->var_id);
+    }
+    else if (exp->node_type == NODE_TYPE_LAMBDA)
+    {
+        for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
+        printf("LAMBDA\n");
+        _pprint(depth+1, exp->left);
+        _pprint(depth+1, exp->right);
+    }
+    else if (exp->node_type == NODE_TYPE_APP)
+    {
+        for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
+        printf("APP\n");
+        _pprint(depth+1, exp->left);
+        _pprint(depth+1, exp->right);
+    }
+    else if (exp->node_type == NODE_TYPE_NUMBER)
+    {
+        for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
+        printf("NUMBER %d\n", exp->num_value);
+    }
+}
+
+void pprint(struct node* exp)
+{
+    _pprint(0, exp);
+}
