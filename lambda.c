@@ -124,3 +124,33 @@ void pprint(struct node* exp)
 {
     _pprint(0, exp);
 }
+
+void free_node(struct node* exp)
+{
+    // free children first, then the node itself
+    if (exp->node_type == NODE_TYPE_VAR)
+    {
+        // no children
+    }
+    else if (exp->node_type == NODE_TYPE_LAMBDA)
+    {
+        free_node(exp->left);
+        free_node(exp->right);
+    }
+    else if (exp->node_type == NODE_TYPE_APP)
+    {
+        free_node(exp->left);
+        free_node(exp->right);
+    }
+    else if (exp->node_type == NODE_TYPE_NUMBER)
+    {
+        // no children
+    }
+
+    free(exp);
+}
+
+void handle_syntax_tree(struct node* exp)
+{
+    free_node(exp);
+}

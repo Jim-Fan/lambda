@@ -20,9 +20,6 @@ void yyerror(char* s)
     fprintf(stderr, "lambda: syntax error on line %d\n", yylineno);
 }
 
-    /* For gdb capture */
-struct node* TOP = NULL;
-
 %}
 
         /* typedef of YYSTYPE i.e. type of yylval */
@@ -94,7 +91,7 @@ calclist:
   }
   |
   calclist exp EOE {
-    TOP = $2;
+    handle_syntax_tree($2);
   }
   |
   calclist error EOE {

@@ -33,4 +33,7 @@ struct node* new_app_node(struct node* exp1, struct node* exp2);
 
 void _pprint(unsigned int depth, struct node* exp);
 void pprint(struct node* exp);
+
+void free_node(struct node* exp);
+void handle_syntax_tree(struct node* exp);
 #endif
