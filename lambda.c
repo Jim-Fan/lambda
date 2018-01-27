@@ -163,13 +163,14 @@ void handle_syntax_tree(struct node* exp)
 
 struct node* _eval(struct node* exp)
 {
-    struct binding* b = BINDING_HEAD;
+    struct binding* b = NULL;
 
     if (exp->node_type == NODE_TYPE_VAR)
     {
         // bound variable: look up binding list using var_id
         if (exp->is_bound)
         {
+            b = BINDING_HEAD;
             while (b != NULL)
             {
                 if (b->var_id == exp->bound_by) return b->value;
@@ -218,6 +219,7 @@ struct node* _eval(struct node* exp)
         }
 
         // create new binding k to E2
+        b = BINDING_HEAD;
         BINDING_HEAD = (struct binding*) malloc(sizeof(struct binding));
         BINDING_HEAD->next = b;
         BINDING_HEAD->var_id = E1->left->var_id;
