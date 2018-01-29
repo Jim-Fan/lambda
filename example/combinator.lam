@@ -1,0 +1,52 @@
+# ((S I) I) I
+(((/x./y./z.(x z)(y z)) /a.a) /b.b) /c.c;
+
+# Observe that in the last (top) binding, /c.c refers to itself
+# Thus pprint eval result (which is /c.c) leads to non-termination
+
+# (lambda version 0.1)
+# > (((/x./y./z.(x z)(y z)) /a.a) /b.b) /c.c;
+# <before>
+# APP(9025)
+#   APP(9021)
+#     APP(9017)
+#       LAMBDA(9013)
+#         VAR(9012, bound to 9012) x
+#         LAMBDA(9011)
+#           VAR(9010, bound to 9010) y
+#           LAMBDA(9009)
+#             VAR(9008, bound to 9008) z
+#             APP(9007)
+#               APP(9003)
+#                 VAR(9001, bound to 9012) x
+#                 VAR(9002, bound to 9008) z
+#               APP(9006)
+#                 VAR(9004, bound to 9010) y
+#                 VAR(9005, bound to 9008) z
+#       LAMBDA(9016)
+#         VAR(9015, bound to 9015) a
+#         VAR(9014, bound to 9015) a
+#     LAMBDA(9020)
+#       VAR(9019, bound to 9019) b
+#       VAR(9018, bound to 9019) b
+#   LAMBDA(9024)
+#     VAR(9023, bound to 9023) c
+#     VAR(9022, bound to 9023) c
+# <binding>
+# <after>
+# LAMBDA(9024)
+#   VAR(9023, bound to 9023) c
+#   VAR(9022, bound to 9023) c
+# =
+#   [Circularity detected]
+# <binding>
+# var id: 9023    bound to: 9024
+# var id: 9019    bound to: 9024
+# var id: 9015    bound to: 9024
+# var id: 9008    bound to: 9024
+# var id: 9010    bound to: 9020
+# var id: 9012    bound to: 9016
+
+
+# K combinator
+( ( /a. /b. a ) 9 ) 200;

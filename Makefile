@@ -1,3 +1,5 @@
+.PHONY: example
+
 lambda: parser.tab.c lexer.yy.c lambda.h lambda.c main.c
 	gcc -std=c99 -g -o $@ lexer.yy.c parser.tab.c lambda.c main.c -lreadline
 
@@ -17,6 +19,12 @@ test: lambda
 	rm -f tests/*.txt; \
 	for LAM in tests/*.lam; do \
 		cat "$$LAM" | ./lambda 2> tests/`basename $$LAM .lam`.txt; \
+	done
+
+example:
+	rm -f example/*.txt; \
+	for LAM in example/*.lam; do \
+		cat "$$LAM" | ./lambda 2>/dev/null 1>example/`basename $$LAM .lam`.txt; \
 	done
 
 clean:
