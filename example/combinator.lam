@@ -50,3 +50,6 @@
 
 # K combinator
 ( ( /a. /b. a ) 9 ) 200;
+
+# SKK combinator as I
+( ( (/x./y./z.(x z)(y z)) (/a./b.a) ) (/a./b.a) ) 1997;

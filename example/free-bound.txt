@@ -1,0 +1,62 @@
+<syntax tree>
+| LAMBDA(9005)
+  | VAR(9004, bound to 9004) x
+  | APP(9003)
+    | VAR(9001, bound to 9004) x
+    | VAR(9002, free 0) y
+
+<after>
+| LAMBDA(9005)
+  | VAR(9004, bound to 9004) x
+  | APP(9003)
+    | VAR(9001, bound to 9004) x
+    | VAR(9002, free 0) y
+
+<binding>
+
+<syntax tree>
+| LAMBDA(9010)
+  | VAR(9009, bound to 9009) x
+  | LAMBDA(9008)
+    | VAR(9007, bound to 9007) x
+    | VAR(9006, bound to 9007) x
+
+<after>
+| LAMBDA(9010)
+  | VAR(9009, bound to 9009) x
+  | LAMBDA(9008)
+    | VAR(9007, bound to 9007) x
+    | VAR(9006, bound to 9007) x
+
+<binding>
+
+<syntax tree>
+| APP(9015)
+  | LAMBDA(9013)
+    | VAR(9012, bound to 9012) x
+    | VAR(9011, bound to 9012) x
+  | VAR(9014, free 0) x
+
+<after>
+| VAR(9014, free 0) x
+
+<binding>
+var id: 9012	bound to: 9014
+
+<syntax tree>
+| APP(9022)
+  | LAMBDA(9018)
+    | VAR(9017, bound to 9017) x
+    | VAR(9016, bound to 9017) x
+  | LAMBDA(9021)
+    | VAR(9020, bound to 9020) y
+    | VAR(9019, free 0) x
+
+<after>
+| LAMBDA(9021)
+  | VAR(9020, bound to 9020) y
+  | VAR(9019, free 0) x
+
+<binding>
+var id: 9017	bound to: 9021
+

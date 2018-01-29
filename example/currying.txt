@@ -1,0 +1,94 @@
+<syntax tree>
+| LAMBDA(9007)
+  | VAR(9006, bound to 9006) f
+  | LAMBDA(9005)
+    | VAR(9004, bound to 9004) g
+    | APP(9003)
+      | VAR(9001, bound to 9004) g
+      | VAR(9002, bound to 9006) f
+
+<after>
+| LAMBDA(9007)
+  | VAR(9006, bound to 9006) f
+  | LAMBDA(9005)
+    | VAR(9004, bound to 9004) g
+    | APP(9003)
+      | VAR(9001, bound to 9004) g
+      | VAR(9002, bound to 9006) f
+
+<binding>
+
+<syntax tree>
+| APP(9016)
+  | LAMBDA(9014)
+    | VAR(9013, bound to 9013) f
+    | LAMBDA(9012)
+      | VAR(9011, bound to 9011) g
+      | APP(9010)
+        | VAR(9008, bound to 9011) g
+        | VAR(9009, bound to 9013) f
+  | NUMBER(9015) 10
+
+<after>
+| LAMBDA(9012)
+  | VAR(9011, bound to 9011) g
+  | APP(9010)
+    | VAR(9008, bound to 9011) g
+        | NUMBER(9015) 10
+
+<binding>
+var id: 9013	bound to: 9015
+
+<syntax tree>
+| APP(9029)
+  | APP(9025)
+    | LAMBDA(9023)
+      | VAR(9022, bound to 9022) f
+      | LAMBDA(9021)
+        | VAR(9020, bound to 9020) g
+        | APP(9019)
+          | VAR(9017, bound to 9020) g
+          | VAR(9018, bound to 9022) f
+    | NUMBER(9024) 10
+  | LAMBDA(9028)
+    | VAR(9027, bound to 9027) i
+    | VAR(9026, bound to 9027) i
+
+<after>
+| NUMBER(9024) 10
+
+<binding>
+var id: 9027	bound to: 9024
+var id: 9020	bound to: 9028
+var id: 9022	bound to: 9024
+
+<syntax tree>
+| APP(9044)
+  | APP(9042)
+    | LAMBDA(9040)
+      | VAR(9039, bound to 9039) f
+      | LAMBDA(9038)
+        | VAR(9037, bound to 9037) g
+        | APP(9036)
+          | VAR(9030, bound to 9037) g
+          | APP(9035)
+            | VAR(9031, bound to 9037) g
+            | APP(9034)
+              | VAR(9032, bound to 9037) g
+              | VAR(9033, bound to 9039) f
+    | NUMBER(9041) 10
+  | VAR(9043, free 0) h
+
+<after>
+| APP(9036)
+    | VAR(9043, free 0) h
+  | APP(9035)
+        | VAR(9043, free 0) h
+    | APP(9034)
+            | VAR(9043, free 0) h
+            | NUMBER(9041) 10
+
+<binding>
+var id: 9037	bound to: 9043
+var id: 9039	bound to: 9041
+

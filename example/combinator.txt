@@ -1,0 +1,98 @@
+<syntax tree>
+| APP(9025)
+  | APP(9021)
+    | APP(9017)
+      | LAMBDA(9013)
+        | VAR(9012, bound to 9012) x
+        | LAMBDA(9011)
+          | VAR(9010, bound to 9010) y
+          | LAMBDA(9009)
+            | VAR(9008, bound to 9008) z
+            | APP(9007)
+              | APP(9003)
+                | VAR(9001, bound to 9012) x
+                | VAR(9002, bound to 9008) z
+              | APP(9006)
+                | VAR(9004, bound to 9010) y
+                | VAR(9005, bound to 9008) z
+      | LAMBDA(9016)
+        | VAR(9015, bound to 9015) a
+        | VAR(9014, bound to 9015) a
+    | LAMBDA(9020)
+      | VAR(9019, bound to 9019) b
+      | VAR(9018, bound to 9019) b
+  | LAMBDA(9024)
+    | VAR(9023, bound to 9023) c
+    | VAR(9022, bound to 9023) c
+
+<after>
+| LAMBDA(9024)
+  | VAR(9023, bound to 9023) c
+  | VAR(9022, bound to 9023) c
+
+<binding>
+var id: 9023	bound to: 9024
+var id: 9019	bound to: 9024
+var id: 9015	bound to: 9024
+var id: 9008	bound to: 9024
+var id: 9010	bound to: 9020
+var id: 9012	bound to: 9016
+
+<syntax tree>
+| APP(9034)
+  | APP(9032)
+    | LAMBDA(9030)
+      | VAR(9029, bound to 9029) a
+      | LAMBDA(9028)
+        | VAR(9027, bound to 9027) b
+        | VAR(9026, bound to 9029) a
+    | NUMBER(9031) 9
+  | NUMBER(9033) 200
+
+<after>
+| NUMBER(9031) 9
+
+<binding>
+var id: 9027	bound to: 9033
+var id: 9029	bound to: 9031
+
+<syntax tree>
+| APP(9061)
+  | APP(9059)
+    | APP(9053)
+      | LAMBDA(9047)
+        | VAR(9046, bound to 9046) x
+        | LAMBDA(9045)
+          | VAR(9044, bound to 9044) y
+          | LAMBDA(9043)
+            | VAR(9042, bound to 9042) z
+            | APP(9041)
+              | APP(9037)
+                | VAR(9035, bound to 9046) x
+                | VAR(9036, bound to 9042) z
+              | APP(9040)
+                | VAR(9038, bound to 9044) y
+                | VAR(9039, bound to 9042) z
+      | LAMBDA(9052)
+        | VAR(9051, bound to 9051) a
+        | LAMBDA(9050)
+          | VAR(9049, bound to 9049) b
+          | VAR(9048, bound to 9051) a
+    | LAMBDA(9058)
+      | VAR(9057, bound to 9057) a
+      | LAMBDA(9056)
+        | VAR(9055, bound to 9055) b
+        | VAR(9054, bound to 9057) a
+  | NUMBER(9060) 1997
+
+<after>
+| NUMBER(9060) 1997
+
+<binding>
+var id: 9049	bound to: 9056
+var id: 9057	bound to: 9060
+var id: 9051	bound to: 9060
+var id: 9042	bound to: 9060
+var id: 9044	bound to: 9058
+var id: 9046	bound to: 9052
+
