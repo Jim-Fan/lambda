@@ -33,9 +33,6 @@ int main(void)
         goto CLEAN_UP;
     }
 
-    //ncl_init();
-    printf("(lambda version 0.1)\n");
-
     int result = yyparse();
     if (result != 0)
     {

@@ -90,43 +90,66 @@ struct node* new_app_node(struct node* exp1, struct node* exp2)
     return nd;
 }
 
-void _pprint(unsigned int depth, struct node* exp)
+void _pprint(struct node* root, unsigned int depth, struct node* exp)
 {
     if (exp->node_type == NODE_TYPE_VAR)
     {
         for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
+
+        // if variable is bound but not to itself (e.g. x in (/x. E):
+        //   lookup its value
+        // else:
+        //   it is free, just print it as-is
+        if (exp->is_bound && exp->var_id != exp->bound_by)
+        {
+            struct binding* b = BINDING_HEAD;
+            while (b != NULL)
+            {
+                if (exp->bound_by == b->var_id)
+                {
+                    // Cyclic expression, see ((S I) I) I in example/combinator.lam
+                    // Silently exit lookup, print the variable as-is
+                    if (b->value == root && depth > 0) goto FREE_OR_SELF_BOUNDED;
+
+                    _pprint(root, depth, b->value);
+                    return;
+                }
+                b = b->next;
+            }
+        }
+
+FREE_OR_SELF_BOUNDED:
         printf(
-            "VAR %c(%d, %s %d)\n",
-            exp->var_name,
+            "| VAR(%d, %s %d) %c\n",
             exp->var_id,
-            (exp->is_bound ? "bound" : "free"),
+            (exp->is_bound ? "bound to" : "free"),
             exp->bound_by,
-            exp->var_id);
+            exp->var_name);
     }
     else if (exp->node_type == NODE_TYPE_LAMBDA)
     {
         for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
-        printf("LAMBDA\n");
-        _pprint(depth+1, exp->left);
-        _pprint(depth+1, exp->right);
+        printf("| LAMBDA(%d)\n", exp->var_id);
+        _pprint(root, depth+1, exp->left);
+        _pprint(root, depth+1, exp->right);
     }
     else if (exp->node_type == NODE_TYPE_APP)
     {
         for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
-        printf("APP\n");
-        _pprint(depth+1, exp->left);
-        _pprint(depth+1, exp->right);
+        printf("| APP(%d)\n", exp->var_id);
+        _pprint(root, depth+1, exp->left);
+        _pprint(root, depth+1, exp->right);
     }
     else if (exp->node_type == NODE_TYPE_NUMBER)
     {
         for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
-        printf("NUMBER %d\n", exp->num_value);
+        printf("| NUMBER(%d) %d\n", exp->var_id, exp->num_value);
     }
 }
 
 void pprint(struct node* exp)
 {
-    _pprint(0, exp);
+    _pprint(exp, 0, exp);
 }
 
 void free_node(struct node* exp)
@@ -156,8 +179,21 @@ void free_node(struct node* exp)
 
 void handle_syntax_tree(struct node* exp)
 {
+    printf("<syntax tree>\n");
+    pprint(exp);
+    printf("\n");
+
     struct node* result = eval(exp);
+
+    printf("<after>\n");
     if (result != NULL) pprint(result);
+    printf("\n");
+
+    printf("<binding>\n");
+    dump_binding();
+    printf("\n");
+
+    clear_binding();
     free_node(exp);
 }
 
@@ -269,4 +305,17 @@ void dump_binding()
         );
         b = b->next;
     }
+}
+
+void clear_binding()
+{
+    struct binding* b = BINDING_HEAD;
+    struct binding* tmp = b;
+    while (b != NULL)
+    {
+        b = tmp->next;
+        free(tmp);
+        tmp = b;
+    }
+    BINDING_HEAD = NULL;
 }

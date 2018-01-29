@@ -37,7 +37,7 @@ struct node* new_lambda_node(struct node* var, struct node* exp);
 void bound_var(struct node* var, struct node* exp);
 struct node* new_app_node(struct node* exp1, struct node* exp2);
 
-void _pprint(unsigned int depth, struct node* exp);
+void _pprint(struct node* root, unsigned int depth, struct node* exp);
 void pprint(struct node* exp);
 
 void free_node(struct node* exp);
@@ -48,4 +48,5 @@ struct node* _eval(struct node* exp);
 struct node* eval(struct node* exp);
 
 void dump_binding();
+void clear_binding();
 #endif
