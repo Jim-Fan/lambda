@@ -257,3 +257,16 @@ struct node* eval(struct node* exp)
     }
     return _eval(exp);
 }
+
+void dump_binding()
+{
+    struct binding* b = BINDING_HEAD;
+    while (b != NULL)
+    {
+        printf("var id: %d\tbound to: %d\n",
+            b->var_id,
+            b->value->var_id
+        );
+        b = b->next;
+    }
+}

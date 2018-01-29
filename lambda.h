@@ -46,4 +46,6 @@ void handle_syntax_tree(struct node* exp);
 struct node* apply(struct node* lambda, struct node* arg);
 struct node* _eval(struct node* exp);
 struct node* eval(struct node* exp);
+
+void dump_binding();
 #endif
