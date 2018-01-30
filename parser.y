@@ -1,3 +1,5 @@
+%define parse.error verbose
+
 %{
 #include <stdio.h>
 #include <string.h>
@@ -8,16 +10,9 @@ extern int yylex(void);
 extern int yylineno;
 
     /* Parser should provide */
-void yyerror(char* s)
+void yyerror(char* err_msg)
 {
-    /* Can I do better than saying "ncl: syntax error" */
-    /* fprintf(stderr, "ncl: %s\n", s); */
-
-    /* Too bad, yytext is empty string */
-    /* fprintf(stderr, "ncl: syntax error \"%s\"\n", yytext); */
-
-    /* I am wondering how and if I should pass argument s */
-    fprintf(stderr, "lambda: syntax error on line %d\n", yylineno);
+    printf("%s\n", err_msg);
 }
 
 %}
