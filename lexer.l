@@ -75,11 +75,13 @@ static int my_yy_input(char* buf, int max_size)
 %%
 
                 /* Once unknown char is found, eat everything up to EOE */
-<UNKNOWN_CHAR>[^;]*    { fprintf(
-                            stderr,
-                            "lambda: unidentified token at \"%s\" on line %d\n",
-                            yytext,
-                            yylineno); }
+                /* Yielding an UNKNOWN_TOKEN is necessary so as to trigger
+                   a parse error, so that the error token and error rule
+                   (if defined) will take effect, disgarding sub-expressions
+                   on shift-reduce stack */
+<UNKNOWN_CHAR>[^;]*    { printf("error(lex): unidentified token \"%s\"\n", yytext);
+                         return UNKNOWN_TOKEN;
+                       }
 
                 /* EOE turns off unknown char state */
 <UNKNOWN_CHAR>";"        { BEGIN(INITIAL); return EOE; }

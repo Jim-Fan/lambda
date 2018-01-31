@@ -10,9 +10,9 @@ extern int yylex(void);
 extern int yylineno;
 
     /* Parser should provide */
-void yyerror(char* err_msg)
+void yyerror(const char* err_msg)
 {
-    printf("%s\n", err_msg);
+    printf("error(parse): %s\n", err_msg);
 }
 
 %}
@@ -30,6 +30,7 @@ void yyerror(char* err_msg)
 
         /* Return value by lexer's rule, which is part of yylex() */
         /* Coded as C enum in parser header */
+%token UNKNOWN_TOKEN
 %token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET LAMBDA DOT
 %token <c> VAR
 %token <n> NUMBER
