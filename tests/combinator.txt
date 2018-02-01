@@ -4,24 +4,6 @@ Reducing stack by rule 8 (line 83):
 -> $$ = nterm calclist ()
 Stack now 0
 Entering state 1
-Reading a token: Next token is token COMMENT_LINE ()
-Shifting token COMMENT_LINE ()
-Entering state 4
-Reducing stack by rule 9 (line 85):
-   $1 = nterm calclist ()
-   $2 = token COMMENT_LINE ()
--> $$ = nterm calclist ()
-Stack now 0
-Entering state 1
-Reading a token: Next token is token COMMENT_LINE ()
-Shifting token COMMENT_LINE ()
-Entering state 4
-Reducing stack by rule 9 (line 85):
-   $1 = nterm calclist ()
-   $2 = token COMMENT_LINE ()
--> $$ = nterm calclist ()
-Stack now 0
-Entering state 1
 Reading a token: Next token is token LAMBDA ()
 Shifting token LAMBDA ()
 Entering state 6
@@ -60,15 +42,6 @@ Reducing stack by rule 10 (line 89):
    $1 = nterm calclist ()
    $2 = nterm exp ()
    $3 = token EOE ()
--> $$ = nterm calclist ()
-Stack now 0
-Entering state 1
-Reading a token: Next token is token COMMENT_LINE ()
-Shifting token COMMENT_LINE ()
-Entering state 4
-Reducing stack by rule 9 (line 85):
-   $1 = nterm calclist ()
-   $2 = token COMMENT_LINE ()
 -> $$ = nterm calclist ()
 Stack now 0
 Entering state 1
@@ -133,15 +106,6 @@ Reducing stack by rule 10 (line 89):
    $1 = nterm calclist ()
    $2 = nterm exp ()
    $3 = token EOE ()
--> $$ = nterm calclist ()
-Stack now 0
-Entering state 1
-Reading a token: Next token is token COMMENT_LINE ()
-Shifting token COMMENT_LINE ()
-Entering state 4
-Reducing stack by rule 9 (line 85):
-   $1 = nterm calclist ()
-   $2 = token COMMENT_LINE ()
 -> $$ = nterm calclist ()
 Stack now 0
 Entering state 1

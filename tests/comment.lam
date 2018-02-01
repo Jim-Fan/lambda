@@ -1,3 +1,16 @@
 # This is comment
 f 10;
 # This is comment again, note there is no \n before EOF, which is fine
+
+# Comment is disgarded by lexer and can interleave expression
+(((
+/s.
+    /k.
+        /i. ((s k )k) i
+)
+# s
+/x./y./z.(x z)(y z)  )
+    # k
+    /x./y.x  )
+        # i
+        /x.x;
