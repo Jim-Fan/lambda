@@ -6,79 +6,79 @@ Stack now 0
 Entering state 1
 Reading a token: Next token is token LAMBDA ()
 Shifting token LAMBDA ()
-Entering state 6
+Entering state 5
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 14
+Entering state 13
 Reading a token: Next token is token DOT ()
 Shifting token DOT ()
-Entering state 18
+Entering state 17
 Reading a token: Next token is token LAMBDA ()
 Shifting token LAMBDA ()
-Entering state 6
+Entering state 5
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 14
+Entering state 13
 Reading a token: Next token is token DOT ()
 Shifting token DOT ()
-Entering state 18
+Entering state 17
 Reading a token: Next token is token LAMBDA ()
 Shifting token LAMBDA ()
-Entering state 6
+Entering state 5
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 14
+Entering state 13
 Reading a token: Next token is token DOT ()
 Shifting token DOT ()
+Entering state 17
+Reading a token: Next token is token VAR ()
+Shifting token VAR ()
+Entering state 6
+Reducing stack by rule 3 (line 59):
+   $1 = token VAR ()
+-> $$ = nterm exp ()
+Stack now 0 1 5 13 17 5 13 17 5 13 17
 Entering state 18
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 7
+Entering state 6
 Reducing stack by rule 3 (line 59):
    $1 = token VAR ()
 -> $$ = nterm exp ()
-Stack now 0 1 6 14 18 6 14 18 6 14 18
-Entering state 19
+Stack now 0 1 5 13 17 5 13 17 5 13 17 18
+Entering state 15
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 7
+Entering state 6
 Reducing stack by rule 3 (line 59):
    $1 = token VAR ()
 -> $$ = nterm exp ()
-Stack now 0 1 6 14 18 6 14 18 6 14 18 19
-Entering state 16
-Reading a token: Next token is token VAR ()
-Shifting token VAR ()
-Entering state 7
-Reducing stack by rule 3 (line 59):
-   $1 = token VAR ()
--> $$ = nterm exp ()
-Stack now 0 1 6 14 18 6 14 18 6 14 18 19 16
-Entering state 16
+Stack now 0 1 5 13 17 5 13 17 5 13 17 18 15
+Entering state 15
 Reading a token: Next token is token EOE ()
 Reducing stack by rule 7 (line 71):
    $1 = nterm exp ()
    $2 = nterm exp ()
 -> $$ = nterm app ()
-Stack now 0 1 6 14 18 6 14 18 6 14 18 19
-Entering state 11
+Stack now 0 1 5 13 17 5 13 17 5 13 17 18
+Entering state 10
 Reducing stack by rule 1 (line 55):
    $1 = nterm app ()
 -> $$ = nterm exp ()
-Stack now 0 1 6 14 18 6 14 18 6 14 18 19
-Entering state 16
+Stack now 0 1 5 13 17 5 13 17 5 13 17 18
+Entering state 15
 Next token is token EOE ()
 Reducing stack by rule 7 (line 71):
    $1 = nterm exp ()
    $2 = nterm exp ()
 -> $$ = nterm app ()
-Stack now 0 1 6 14 18 6 14 18 6 14 18
-Entering state 11
+Stack now 0 1 5 13 17 5 13 17 5 13 17
+Entering state 10
 Reducing stack by rule 1 (line 55):
    $1 = nterm app ()
 -> $$ = nterm exp ()
-Stack now 0 1 6 14 18 6 14 18 6 14 18
-Entering state 19
+Stack now 0 1 5 13 17 5 13 17 5 13 17
+Entering state 18
 Next token is token EOE ()
 Reducing stack by rule 6 (line 67):
    $1 = token LAMBDA ()
@@ -86,13 +86,13 @@ Reducing stack by rule 6 (line 67):
    $3 = token DOT ()
    $4 = nterm exp ()
 -> $$ = nterm lambda ()
-Stack now 0 1 6 14 18 6 14 18
-Entering state 10
+Stack now 0 1 5 13 17 5 13 17
+Entering state 9
 Reducing stack by rule 2 (line 57):
    $1 = nterm lambda ()
 -> $$ = nterm exp ()
-Stack now 0 1 6 14 18 6 14 18
-Entering state 19
+Stack now 0 1 5 13 17 5 13 17
+Entering state 18
 Next token is token EOE ()
 Reducing stack by rule 6 (line 67):
    $1 = token LAMBDA ()
@@ -100,13 +100,13 @@ Reducing stack by rule 6 (line 67):
    $3 = token DOT ()
    $4 = nterm exp ()
 -> $$ = nterm lambda ()
-Stack now 0 1 6 14 18
-Entering state 10
+Stack now 0 1 5 13 17
+Entering state 9
 Reducing stack by rule 2 (line 57):
    $1 = nterm lambda ()
 -> $$ = nterm exp ()
-Stack now 0 1 6 14 18
-Entering state 19
+Stack now 0 1 5 13 17
+Entering state 18
 Next token is token EOE ()
 Reducing stack by rule 6 (line 67):
    $1 = token LAMBDA ()
@@ -114,17 +114,17 @@ Reducing stack by rule 6 (line 67):
    $3 = token DOT ()
    $4 = nterm exp ()
 -> $$ = nterm lambda ()
-Stack now 0 1
-Entering state 10
-Reducing stack by rule 2 (line 57):
-   $1 = nterm lambda ()
--> $$ = nterm exp ()
 Stack now 0 1
 Entering state 9
+Reducing stack by rule 2 (line 57):
+   $1 = nterm lambda ()
+-> $$ = nterm exp ()
+Stack now 0 1
+Entering state 8
 Next token is token EOE ()
 Shifting token EOE ()
-Entering state 15
-Reducing stack by rule 10 (line 89):
+Entering state 14
+Reducing stack by rule 9 (line 85):
    $1 = nterm calclist ()
    $2 = nterm exp ()
    $3 = token EOE ()

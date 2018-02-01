@@ -31,7 +31,7 @@ void yyerror(const char* err_msg)
         /* Return value by lexer's rule, which is part of yylex() */
         /* Coded as C enum in parser header */
 %token UNKNOWN_TOKEN
-%token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET LAMBDA DOT
+%token EOE EOL L_BRACKET R_BRACKET LAMBDA DOT
 %token <c> VAR
 %token <n> NUMBER
 
@@ -81,10 +81,6 @@ calclist:
          * production would not terminate
          */
   %empty
-  |
-  calclist COMMENT_LINE {
-    // nothing to do
-  }
   |
   calclist exp EOE {
     handle_syntax_tree($2);

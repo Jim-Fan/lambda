@@ -6,122 +6,122 @@ Stack now 0
 Entering state 1
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 7
+Entering state 6
 Reducing stack by rule 3 (line 59):
    $1 = token VAR ()
 -> $$ = nterm exp ()
 Stack now 0 1
-Entering state 9
+Entering state 8
 Reading a token: Next token is token L_BRACKET ()
 Shifting token L_BRACKET ()
-Entering state 5
+Entering state 4
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 7
+Entering state 6
 Reducing stack by rule 3 (line 59):
    $1 = token VAR ()
 -> $$ = nterm exp ()
-Stack now 0 1 9 5
-Entering state 13
+Stack now 0 1 8 4
+Entering state 12
 Reading a token: Next token is token NUMBER ()
 Shifting token NUMBER ()
-Entering state 8
+Entering state 7
 Reducing stack by rule 4 (line 61):
    $1 = token NUMBER ()
 -> $$ = nterm exp ()
-Stack now 0 1 9 5 13
-Entering state 16
+Stack now 0 1 8 4 12
+Entering state 15
 Reading a token: Next token is token R_BRACKET ()
 Reducing stack by rule 7 (line 71):
    $1 = nterm exp ()
    $2 = nterm exp ()
 -> $$ = nterm app ()
-Stack now 0 1 9 5
-Entering state 11
+Stack now 0 1 8 4
+Entering state 10
 Reducing stack by rule 1 (line 55):
    $1 = nterm app ()
 -> $$ = nterm exp ()
-Stack now 0 1 9 5
-Entering state 13
+Stack now 0 1 8 4
+Entering state 12
 Next token is token R_BRACKET ()
 Shifting token R_BRACKET ()
-Entering state 17
+Entering state 16
 Reducing stack by rule 5 (line 63):
    $1 = token L_BRACKET ()
    $2 = nterm exp ()
    $3 = token R_BRACKET ()
 -> $$ = nterm exp ()
-Stack now 0 1 9
-Entering state 16
+Stack now 0 1 8
+Entering state 15
 Reading a token: Next token is token L_BRACKET ()
 Shifting token L_BRACKET ()
-Entering state 5
+Entering state 4
 Reading a token: Next token is token VAR ()
 Shifting token VAR ()
-Entering state 7
+Entering state 6
 Reducing stack by rule 3 (line 59):
    $1 = token VAR ()
 -> $$ = nterm exp ()
-Stack now 0 1 9 16 5
-Entering state 13
+Stack now 0 1 8 15 4
+Entering state 12
 Reading a token: Next token is token NUMBER ()
 Shifting token NUMBER ()
-Entering state 8
+Entering state 7
 Reducing stack by rule 4 (line 61):
    $1 = token NUMBER ()
 -> $$ = nterm exp ()
-Stack now 0 1 9 16 5 13
-Entering state 16
+Stack now 0 1 8 15 4 12
+Entering state 15
 Reading a token: Next token is token R_BRACKET ()
 Reducing stack by rule 7 (line 71):
    $1 = nterm exp ()
    $2 = nterm exp ()
 -> $$ = nterm app ()
-Stack now 0 1 9 16 5
-Entering state 11
+Stack now 0 1 8 15 4
+Entering state 10
 Reducing stack by rule 1 (line 55):
    $1 = nterm app ()
 -> $$ = nterm exp ()
-Stack now 0 1 9 16 5
-Entering state 13
+Stack now 0 1 8 15 4
+Entering state 12
 Next token is token R_BRACKET ()
 Shifting token R_BRACKET ()
-Entering state 17
+Entering state 16
 Reducing stack by rule 5 (line 63):
    $1 = token L_BRACKET ()
    $2 = nterm exp ()
    $3 = token R_BRACKET ()
 -> $$ = nterm exp ()
-Stack now 0 1 9 16
-Entering state 16
+Stack now 0 1 8 15
+Entering state 15
 Reading a token: Next token is token EOE ()
 Reducing stack by rule 7 (line 71):
    $1 = nterm exp ()
    $2 = nterm exp ()
 -> $$ = nterm app ()
-Stack now 0 1 9
-Entering state 11
+Stack now 0 1 8
+Entering state 10
 Reducing stack by rule 1 (line 55):
    $1 = nterm app ()
 -> $$ = nterm exp ()
-Stack now 0 1 9
-Entering state 16
+Stack now 0 1 8
+Entering state 15
 Next token is token EOE ()
 Reducing stack by rule 7 (line 71):
    $1 = nterm exp ()
    $2 = nterm exp ()
 -> $$ = nterm app ()
 Stack now 0 1
-Entering state 11
+Entering state 10
 Reducing stack by rule 1 (line 55):
    $1 = nterm app ()
 -> $$ = nterm exp ()
 Stack now 0 1
-Entering state 9
+Entering state 8
 Next token is token EOE ()
 Shifting token EOE ()
-Entering state 15
-Reducing stack by rule 10 (line 89):
+Entering state 14
+Reducing stack by rule 9 (line 85):
    $1 = nterm calclist ()
    $2 = nterm exp ()
    $3 = token EOE ()
