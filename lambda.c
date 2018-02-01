@@ -107,9 +107,54 @@ void _pprint(struct node* root, unsigned int depth, struct node* exp)
             {
                 if (exp->bound_by == b->var_id)
                 {
-                    // Cyclic expression, see ((S I) I) I in example/combinator.lam
-                    // Silently exit lookup, print the variable as-is
-                    if (b->value == root && depth > 0) goto FREE_OR_SELF_BOUNDED;
+                    // In current evaluation method, cyclic de-referencing could
+                    // happen in subtle way. When this is detected, the bound
+                    // variable is printed without following its value in binding
+                    // list, as if it is a free variable
+
+                    // Case 1:
+                    // Combination ((S I) I) I can lead to /c.c where the inner
+                    // c is ultimately bound to itself => cyclic pprint
+                    if (b->value == root && depth > 0) goto FREE_OR_CYCLE_FOUND;
+
+                    // Case 2:
+                    // This is even more subtle. Consider S combinator applied to
+                    // itself:
+                    // (/s. s s) /x./y./z.(x z)(y z) ;
+                    //
+                    // <syntax tree>
+                    // | APP(9019)
+                    //   | LAMBDA(9005)
+                    //     | VAR(9004, bound to 9004) s
+                    //     | APP(9003)
+                    //       | VAR(9001, bound to 9004) s
+                    //       | VAR(9002, bound to 9004) s
+                    //   | LAMBDA(9018)             <------------------------------
+                    //     | VAR(9017, bound to 9017) x                           |
+                    //     | LAMBDA(9016)           <===== pprint root            |
+                    //       | VAR(9015, bound to 9015) y                         |
+                    //       | LAMBDA(9014)                                       |
+                    //         | VAR(9013, bound to 9013) z                       |
+                    //         | APP(9012)                                        |
+                    //           | APP(9008)                                      |
+                    //             | VAR(9006, bound to 9017) x  <= loop back to --
+                    //             | VAR(9007, bound to 9013) z
+                    //           | APP(9011)
+                    //             | VAR(9009, bound to 9015) y
+                    //             | VAR(9010, bound to 9013) z
+                    // <binding>
+                    // var id: 9017    bound to: 9018
+                    // var id: 9004    bound to: 9018
+                    //
+                    // De-referencing x (VAR 9006) jumps back to a node higher than
+                    // pprint root, which can be trapped uglily:
+                    if (b->value->node_type == NODE_TYPE_LAMBDA)
+                    {
+                        if (b->value->left->var_id == exp->bound_by)
+                        {
+                            goto FREE_OR_CYCLE_FOUND;
+                        }
+                    }
 
                     _pprint(root, depth, b->value);
                     return;
@@ -118,7 +163,7 @@ void _pprint(struct node* root, unsigned int depth, struct node* exp)
             }
         }
 
-FREE_OR_SELF_BOUNDED:
+FREE_OR_CYCLE_FOUND:
         printf(
             "| VAR(%d, %s %d) %c\n",
             exp->var_id,
