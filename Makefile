@@ -1,7 +1,7 @@
 .PHONY: example
 
 lambda: parser.tab.c lexer.yy.c lambda.h lambda.c main.c
-	gcc -std=c99 -g -o $@ lexer.yy.c parser.tab.c lambda.c main.c -lreadline
+	gcc -std=c99 -g -o $@ lexer.yy.c parser.tab.c lambda.c main.c
 
 lexer.yy.c: lexer.l
 	flex -o $@ $<
