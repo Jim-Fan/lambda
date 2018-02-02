@@ -4,7 +4,7 @@
 #include "lambda.h"
 
 static struct binding* BINDING_HEAD = NULL;
-static jmp_buf eval_jbuf;
+static jmp_buf eval_err_jmpbuf;             // non-local escape of _eval()
 
 struct node* new_node(NODE_TYPE node_type)
 {
@@ -230,13 +230,20 @@ void handle_syntax_tree(struct node* exp)
 
     struct node* result = eval(exp);
 
-    printf("<after>\n");
-    if (result != NULL) pprint(result);
-    printf("\n");
+    // Only print eval result and binding if no eval error
+    if (result != NULL)
+    {
+        printf("<after>\n");
 
-    printf("<binding>\n");
-    dump_binding();
-    printf("\n");
+        // TODO: pprint *after eval* could cause non-termination and
+        //       should catch and handle SIGINT
+        pprint(result);
+        printf("\n");
+
+        printf("<binding>\n");
+        dump_binding();
+        printf("\n");
+    }
 
     clear_binding();
     free_node(exp);
@@ -294,9 +301,9 @@ struct node* _eval(struct node* exp)
         if (E1->node_type != NODE_TYPE_LAMBDA) {
             // TODO: semantics error, should long jump back to eval()
             //       since this is inside recursion
-            printf("lambda: expression is not applicable:\n");
+            printf("error(eval): expression is not applicable:\n");
             pprint(E1);
-            longjmp(eval_jbuf, 1);
+            longjmp(eval_err_jmpbuf, 1);
         }
 
         // create new binding k to E2
@@ -331,9 +338,9 @@ struct node* eval(struct node* exp)
     }
     BINDING_HEAD = NULL;
 
-    if (setjmp(eval_jbuf) != 0)
+    // Jump back here if recursive eval finds error
+    if (setjmp(eval_err_jmpbuf) != 0)
     {
-        // error during recursive eval
         return NULL;
     }
     return _eval(exp);
