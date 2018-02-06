@@ -374,6 +374,7 @@ void clear_binding()
 
 void lambda_prompt()
 {
+    if (!isatty(fileno(stdin))) return;
     printf("> ");
     fflush(stdout);
 }
