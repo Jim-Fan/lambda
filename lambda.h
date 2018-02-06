@@ -12,6 +12,13 @@ typedef enum {
     NODE_TYPE_APP
 } NODE_TYPE;
 
+typedef enum {
+    LAMBDA_STATE_INIT,
+    LAMBDA_STATE_READING,
+    LAMBDA_STATE_EVALING,
+    LAMBDA_STATE_PPRINTING
+} LAMBDA_STATE;
+
 struct node {
     NODE_TYPE node_type;
     unsigned int num_value;
@@ -51,4 +58,5 @@ void dump_binding();
 void clear_binding();
 
 void lambda_prompt();
+void lambda_sig_handler(int sig);
 #endif

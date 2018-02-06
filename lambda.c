@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <setjmp.h>
+#include <unistd.h>
 #include "lambda.h"
 
+LAMBDA_STATE lambda_state = LAMBDA_STATE_INIT;
+bool is_interrupted = false;
+extern jmp_buf lexer_readline_jmpbuf;       // jump back to readline
+
 static struct binding* BINDING_HEAD = NULL;
-static jmp_buf eval_err_jmpbuf;             // non-local escape of _eval()
+static jmp_buf eval_err_jmpbuf;             // non-local escape from _eval()
 
 struct node* new_node(NODE_TYPE node_type)
 {
@@ -92,6 +97,17 @@ struct node* new_app_node(struct node* exp1, struct node* exp2)
 
 void _pprint(struct node* root, unsigned int depth, struct node* exp)
 {
+    if (lambda_state == LAMBDA_STATE_PPRINTING && is_interrupted)
+    {
+        // Longjmp is not good, because recursive calls at same depth
+        // will keep going, causing incomprehensible printout
+        // longjmp(sigint_jmpbuf, 1);
+
+        // Instead all recursive calls should return and let pprint()
+        // clear the flag
+        return;
+    }
+
     if (exp->node_type == NODE_TYPE_VAR)
     {
         for (int i=0; i<depth; ++i) { putchar(' '); putchar(' '); }
@@ -224,33 +240,63 @@ void free_node(struct node* exp)
 
 void handle_syntax_tree(struct node* exp)
 {
+    // Eval is a finite process creates value binding when traversing
+    // down the syntax tree, it is safe NOT to check flag in recursive
+    // call [WRONG]
+    // (/f.f f)(/g.g g)     is not terminating
+    lambda_state = LAMBDA_STATE_EVALING;
+
+    // This pprint, without any binding created (yet), is not prone to
+    // non-termination
     printf("<syntax tree>\n");
     pprint(exp);
     printf("\n");
 
     struct node* result = eval(exp);
 
+    if (is_interrupted)
+    {
+        is_interrupted = false;
+        puts("evaluation interrupted");
+        goto CLEANUP_TREE;
+    }
+
+    // PPrint, however, is prone to infinite loop
+    lambda_state = LAMBDA_STATE_PPRINTING;
+
     // Only print eval result and binding if no eval error
     if (result != NULL)
     {
         printf("<after>\n");
 
-        // TODO: pprint *after eval* could cause non-termination and
-        //       should catch and handle SIGINT
         pprint(result);
         printf("\n");
 
         printf("<binding>\n");
         dump_binding();
         printf("\n");
+
+        if (is_interrupted)
+        {
+            is_interrupted = false;
+            puts("pprint interrupted");
+        }
     }
 
+CLEANUP_TREE:
     clear_binding();
     free_node(exp);
+
+    lambda_state = LAMBDA_STATE_READING;
 }
 
 struct node* _eval(struct node* exp)
 {
+    if (lambda_state == LAMBDA_STATE_EVALING && is_interrupted)
+    {
+        return NULL;
+    }
+
     struct binding* b = NULL;
 
     if (exp->node_type == NODE_TYPE_VAR)
@@ -374,6 +420,37 @@ void clear_binding()
 
 void lambda_prompt()
 {
+    if (!isatty(stdin)) return;
     printf("> ");
     fflush(stdout);
+}
+
+void lambda_sig_handler(int sig)
+{
+    // If previous interrupt has not been consumed, ignore this interrupt
+    if (is_interrupted) return;
+
+    switch (lambda_state)
+    {
+        // Flip the flag so that interrupt will be handled in reading state
+        case LAMBDA_STATE_INIT:
+            is_interrupted = true;
+            break;
+
+        // To print out the message is all to do, consume interrupt by
+        // turning flag false
+        // It is not good to do IO in signal handler, but there seems
+        // to be no better way to place this
+        case LAMBDA_STATE_READING:
+            puts("<< interrupted, this line is discarded");
+            is_interrupted = false;
+            break;
+
+        // Flip the flag so that recursive calls of eval and pprint know
+        // they should stop recursing
+        case LAMBDA_STATE_EVALING:
+        case LAMBDA_STATE_PPRINTING:
+            is_interrupted = true;
+            break;
+    }
 }
