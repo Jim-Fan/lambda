@@ -424,7 +424,7 @@ void clear_binding()
 
 void lambda_prompt()
 {
-    if (!isatty(stdin)) return;
+    if (!isatty(fileno(stdin))) return;
     printf("> ");
     fflush(stdout);
 }
