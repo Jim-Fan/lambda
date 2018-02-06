@@ -257,6 +257,8 @@ void handle_syntax_tree(struct node* exp)
     if (is_interrupted)
     {
         is_interrupted = false;
+
+        // BUG: REPL ends unexpectedly after printing this
         puts("evaluation interrupted");
         goto CLEANUP_TREE;
     }
@@ -279,6 +281,8 @@ void handle_syntax_tree(struct node* exp)
         if (is_interrupted)
         {
             is_interrupted = false;
+
+            // BUG: REPL ends unexpectedly after printing this
             puts("pprint interrupted");
         }
     }
