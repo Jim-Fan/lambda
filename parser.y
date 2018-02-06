@@ -84,12 +84,14 @@ calclist:
   |
   calclist exp EOE {
     handle_syntax_tree($2);
+    lambda_prompt();
   }
   |
   calclist error EOE {
     /* Using yyerrok allows recovery from syntax error and thus
      * checking on later lines is possible */
     yyerrok;
+    lambda_prompt();
 
     /* Using YYABORT halts compiling upon first faulty line */
     //YYABORT;
