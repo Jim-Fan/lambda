@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <setjmp.h>
-#include <signal.h>
 #include "lambda.h"
 
 #ifdef YYDEBUG
@@ -10,29 +8,8 @@ yydebug = 1;
 
 extern int yyparse();
 
-static jmp_buf jbuf;
-
-static void sig_handler(int signal)
-{
-    if (signal == SIGINT) longjmp(jbuf, 1);
-}
-
 int main(void)
 {
-    if (signal(SIGINT, sig_handler) == SIG_ERR)
-    {
-        fprintf(stderr, "Error installing signal handler, continue\n");
-    }
-
-    // Crucial to setjmp early, if this is put, for example,
-    // after CLEAN_UP label, longjmp() has no place to jump
-    // to when interrupted during execution loop
-    if (setjmp(jbuf) != 0)
-    {
-        fprintf(stderr, "Interrupted, abort and clean up...\n");
-        goto CLEAN_UP;
-    }
-
     lambda_prompt();
     int result = yyparse();
     if (result != 0)
