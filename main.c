@@ -33,6 +33,7 @@ int main(void)
         goto CLEAN_UP;
     }
 
+    lambda_prompt();
     int result = yyparse();
     if (result != 0)
     {

@@ -49,4 +49,6 @@ struct node* eval(struct node* exp);
 
 void dump_binding();
 void clear_binding();
+
+void lambda_prompt();
 #endif

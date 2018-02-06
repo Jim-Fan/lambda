@@ -371,3 +371,9 @@ void clear_binding()
     }
     BINDING_HEAD = NULL;
 }
+
+void lambda_prompt()
+{
+    printf("> ");
+    fflush(stdout);
+}
