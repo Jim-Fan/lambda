@@ -18,7 +18,7 @@ edit:
 test: lambda
 	rm -f tests/*.txt; \
 	for LAM in tests/*.lam; do \
-		cat "$$LAM" | ./lambda 2> tests/`basename $$LAM .lam`.txt; \
+		cat "$$LAM" | ./lambda -t 2> tests/`basename $$LAM .lam`.txt; \
 	done
 
 example:
