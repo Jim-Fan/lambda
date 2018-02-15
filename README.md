@@ -1,4 +1,5 @@
 lambda: Interpreter for untyped lambda calculus
+===============================================
 
 Summary
 -------
@@ -13,10 +14,12 @@ right-associativity of expression evaluation.
 
 Rudimentary evaluation has been attempted, of which the behaviour
 is incomplete, and may even lead to unexpected non-termination during
-pretty-printing. See <i>limitations</i> section below.
+pretty-printing. See <i>Limitations</i> section below.
 
 Signal handling and readline have once been incorporated. Correct
-behaviour could not be trivially achieved, so removed.
+behaviour could not be trivially achieved, thus the code has been
+removed.
+
 
 Example
 -------
@@ -52,12 +55,12 @@ var id: 9013    bound to: 9015
 
 Note:
 * Top-level expression is terminated with ;
-* / acts as "lambda" keyword in abstraction
+* "/" acts as keyword "lambda" in abstraction
 * Unlike traditional notation, evaluation is right-associative
 * Interpreter responds by showing:
-  ** Syntax tree of expression entered
-  ** Syntax tree of expression after evaluation
-  ** Value binding of lambda variable to its value, if any
+  1. Syntax tree of expression entered
+  2. Syntax tree of expression after evaluation
+  3. Value binding of lambda variable to its value, if any
 * See /example for more
 
 
@@ -70,9 +73,8 @@ Limitations
   free variable, E1 E2 is not evaluated at all. Example:
   (f g 10) evaluates to (f g 10), because f and g are free variable
 * Non-termination could arise due to cyclic pprint. For example,
-  applying [S combinator]
-  (https://en.wikipedia.org/wiki/SKI\_combinator\_calculus#Recursive\_parameter\_passing\_and\_quoting)
-  to itself, see [this example] (https://github.com/Jim-Fan/lambda/example/s.lam)
+  applying [S combinator](https://en.wikipedia.org/wiki/SKI_combinator_calculus#Recursive_parameter_passing_and_quoting) to itself, see
+  [this example](https://github.com/Jim-Fan/lambda/tree/master/example)
   for detail
 
 
@@ -86,7 +88,9 @@ Development is done in Cygwin environment with:
 * flex 2.6.4
 * Exuberant Ctags 5.8   (optional)
 
-To compile, simple run 'make' at shell.
+To compile, simple run 'make' at shell. Build has been done successfully
+on Termux using clang as well. Detailed tool version is not documented
+here.
 
 
 Learned Topics
@@ -95,14 +99,15 @@ Learned Topics
 * Shift/reduce and reduce/reduce conflicts:
   1. Why do they arise
   2. How to resolve (if possible)
+* Syntax error handling with "error" token of bison
 
 
 About Testing
 -------------
-Inspired by flex (the lexer generator) also on github, maintaining
-tests as well as their output could help tracking parser behaviour
+Inspired by flex the lexer generator also on github, maintaining
+test code as well as their output could help tracking parser behaviour
 and is especially useful when there is change in syntax. Output is
-essentially bison trace and needs to be carefully verified before
+essentially bison trace which needs to be carefully verified before
 committing.
 
 See tests/ and example/ for parser and evaluation tests.
