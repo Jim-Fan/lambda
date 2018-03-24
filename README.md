@@ -54,14 +54,14 @@ var id: 9013    bound to: 9015
 ```
 
 Note:
-* Top-level expression is terminated with ;
+* Top-level expression is terminated with ";"
 * "/" acts as keyword "lambda" in abstraction
-* Unlike traditional notation, evaluation is right-associative
+* Unlike traditional lambda notation, evaluation is right-associative
 * Interpreter responds by showing:
-  1. Syntax tree of expression entered
+  1. Syntax tree of top-level expression entered
   2. Syntax tree of expression after evaluation
   3. Value binding of lambda variable to its value, if any
-* See /example for more
+* See /example and /test for more
 
 
 Limitations
