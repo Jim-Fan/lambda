@@ -110,4 +110,4 @@ and is especially useful when there is change in syntax. Output is
 essentially bison trace which needs to be carefully verified before
 committing.
 
-See tests/ and example/ for parser and evaluation tests.
+See /test and /example for parser and evaluation tests.
