@@ -16,9 +16,9 @@ edit:
 	vim -c 'vsplit|b2' lexer.l parser.y
 
 test: lambda
-	rm -f tests/*.txt; \
-	for LAM in tests/*.lam; do \
-		cat "$$LAM" | ./lambda -t 2> tests/`basename $$LAM .lam`.txt; \
+	rm -f test/*.txt; \
+	for LAM in test/*.lam; do \
+		cat "$$LAM" | ./lambda -t 2> test/`basename $$LAM .lam`.txt; \
 	done
 
 example:
