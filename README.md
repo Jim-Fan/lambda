@@ -69,12 +69,9 @@ Limitations
 * If an expression is lambda abstraction, body of lambda is not
   reduced. Example: /x.(/i.i) x evaluates to /x.(/i.i) x instead
   of /x.x
-* If an expression is application of form E1 E2, and if E1 is
-  free variable, E1 E2 is not evaluated at all. Example:
-  (f g 10) evaluates to (f g 10), because f and g are free variable
 * Non-termination could arise due to cyclic pprint. For example,
   applying [S combinator](https://en.wikipedia.org/wiki/SKI_combinator_calculus#Recursive_parameter_passing_and_quoting) to itself, see
-  [this example](https://github.com/Jim-Fan/lambda/tree/master/example)
+  [this example](https://github.com/Jim-Fan/lambda/tree/master/example/combinator.lam)
   for detail
 
 
