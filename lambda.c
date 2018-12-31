@@ -289,15 +289,11 @@ struct node* _eval(struct node* exp)
         struct node* E1 = _eval(exp->left);
         struct node* E2 = _eval(exp->right);
 
-        // if E1 is free, further eval is no possible
-        // otherwise it is bound, thus E1 is lambda construct
-        // TODO: returning exp hides eval result E2
-        //       not necessarily, modify pprint to do binding lookup
-        //       on bound var
-        if (E1->node_type == NODE_TYPE_VAR && E1->is_bound == false) {
-            return exp;
-        }
-
+        // suppose exp->left is a VAR:
+        //   after eval, if E1 is still a VAR, that means it is a free
+        //   variable and is not an applicable term, thus evaluation error
+        // suppose exp->left is a NUMBER:
+        //   even more obvious, NUMBER is not applicable, evaluation error
         if (E1->node_type != NODE_TYPE_LAMBDA) {
             // TODO: semantics error, should long jump back to eval()
             //       since this is inside recursion

@@ -79,16 +79,5 @@ var id: 9022	bound to: 9024
     | NUMBER(9041) 10
   | VAR(9043, free 0) h
 
-<after>
-| APP(9036)
-    | VAR(9043, free 0) h
-  | APP(9035)
-        | VAR(9043, free 0) h
-    | APP(9034)
-            | VAR(9043, free 0) h
-            | NUMBER(9041) 10
-
-<binding>
-var id: 9037	bound to: 9043
-var id: 9039	bound to: 9041
-
+error(eval): expression is not applicable:
+| VAR(9043, free 0) h
