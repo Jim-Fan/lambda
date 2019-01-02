@@ -307,7 +307,7 @@ struct node* _eval(struct node* exp)
         BINDING_HEAD = (struct binding*) malloc(sizeof(struct binding));
         BINDING_HEAD->next = b;
         BINDING_HEAD->var_id = E1->left->var_id;
-        BINDING_HEAD->value = E2;
+        BINDING_HEAD->value = deep_copy(E2);
 
         // evaluate body of E1, that is, E3
         return _eval(E1->right);
@@ -340,6 +340,20 @@ struct node* eval(struct node* exp)
         return NULL;
     }
     return _eval(exp);
+}
+
+struct node* deep_copy(struct node* nd)
+{
+    struct node* a = malloc(sizeof(struct node));
+    memcpy(a, nd, sizeof(struct node));
+
+    // distinguish naive or copied node
+    //a->var_id += 8000000;
+
+    if (nd->left != NULL) a->left = deep_copy(nd->left);
+    if (nd->right != NULL) a->right = deep_copy(nd->right);
+
+    return a;
 }
 
 void dump_binding()
