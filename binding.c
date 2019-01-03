@@ -22,6 +22,8 @@ void clear_binding()
     while (b != NULL)
     {
         b = tmp->next;
+        if (tmp->value != NULL) free_node(tmp->value);
+        tmp->value = NULL;
         free(tmp);
         tmp = b;
     }
@@ -39,6 +41,8 @@ struct binding* create_binding(struct node* var, struct node* value)
     BINDING_HEAD = (struct binding*) malloc(sizeof(struct binding));
     BINDING_HEAD->next = b;
     BINDING_HEAD->var_id = var->var_id;
+
+    // Value of binding now points to new discrete structure, no more loop
     BINDING_HEAD->value = node_deep_copy(value);
     return BINDING_HEAD;
 }
