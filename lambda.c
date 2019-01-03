@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include "lambda.h"
+#include "binding.h"
 
-static struct binding* BINDING_HEAD = NULL;
 static jmp_buf eval_err_jmpbuf;             // non-local escape of _eval()
 
 struct node* new_node(NODE_TYPE node_type)
@@ -102,7 +102,7 @@ void _pprint(struct node* root, unsigned int depth, struct node* exp)
         //   it is free, just print it as-is
         if (exp->is_bound && exp->var_id != exp->bound_by)
         {
-            struct binding* b = BINDING_HEAD;
+            struct binding* b = global_binding_list();
             while (b != NULL)
             {
                 if (exp->bound_by == b->var_id)
@@ -258,7 +258,7 @@ struct node* _eval(struct node* exp)
         // bound variable: look up binding list using var_id
         if (exp->is_bound)
         {
-            b = BINDING_HEAD;
+            b = global_binding_list();
             while (b != NULL)
             {
                 if (b->var_id == exp->bound_by) return b->value;
@@ -303,11 +303,7 @@ struct node* _eval(struct node* exp)
         }
 
         // create new binding k to E2
-        b = BINDING_HEAD;
-        BINDING_HEAD = (struct binding*) malloc(sizeof(struct binding));
-        BINDING_HEAD->next = b;
-        BINDING_HEAD->var_id = E1->left->var_id;
-        BINDING_HEAD->value = deep_copy(E2);
+        create_binding(E1->left, E2);
 
         // evaluate body of E1, that is, E3
         return _eval(E1->right);
@@ -322,17 +318,7 @@ struct node* _eval(struct node* exp)
 struct node* eval(struct node* exp)
 {
     // clear binding from previous eval
-    if (BINDING_HEAD != NULL)
-    {
-        struct binding* b = BINDING_HEAD;
-        while (b != NULL)
-        {
-            BINDING_HEAD = BINDING_HEAD->next;
-            free(b);
-            b = BINDING_HEAD;
-        }
-    }
-    BINDING_HEAD = NULL;
+    clear_binding();
 
     // Jump back here if recursive eval finds error
     if (setjmp(eval_err_jmpbuf) != 0)
@@ -342,7 +328,7 @@ struct node* eval(struct node* exp)
     return _eval(exp);
 }
 
-struct node* deep_copy(struct node* nd)
+struct node* node_deep_copy(struct node* nd)
 {
     struct node* a = malloc(sizeof(struct node));
     memcpy(a, nd, sizeof(struct node));
@@ -350,36 +336,10 @@ struct node* deep_copy(struct node* nd)
     // distinguish naive or copied node
     //a->var_id += 8000000;
 
-    if (nd->left != NULL) a->left = deep_copy(nd->left);
-    if (nd->right != NULL) a->right = deep_copy(nd->right);
+    if (nd->left != NULL) a->left = node_deep_copy(nd->left);
+    if (nd->right != NULL) a->right = node_deep_copy(nd->right);
 
     return a;
-}
-
-void dump_binding()
-{
-    struct binding* b = BINDING_HEAD;
-    while (b != NULL)
-    {
-        printf("var id: %d\tbound to: %d\n",
-            b->var_id,
-            b->value->var_id
-        );
-        b = b->next;
-    }
-}
-
-void clear_binding()
-{
-    struct binding* b = BINDING_HEAD;
-    struct binding* tmp = b;
-    while (b != NULL)
-    {
-        b = tmp->next;
-        free(tmp);
-        tmp = b;
-    }
-    BINDING_HEAD = NULL;
 }
 
 void lambda_prompt()

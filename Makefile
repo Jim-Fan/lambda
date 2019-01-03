@@ -1,7 +1,7 @@
 .PHONY: test example tags
 
-lambda: parser.tab.c lexer.yy.c lambda.h lambda.c main.c
-	gcc -std=c99 -g -o $@ lexer.yy.c parser.tab.c lambda.c main.c
+lambda: parser.tab.c lexer.yy.c lambda.h lambda.c binding.h binding.c main.c
+	gcc -std=c99 -g -o $@ lexer.yy.c parser.tab.c lambda.c binding.c main.c
 
 lexer.yy.c: lexer.l
 	flex -o $@ $<
