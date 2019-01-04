@@ -278,7 +278,17 @@ struct node* _eval(struct node* exp)
     }
     else if (exp->node_type == NODE_TYPE_LAMBDA)
     {
-        // nothing to do, really?
+        // It is tempting to evaluate lambda body here:
+        //
+        //    exp->right = _eval(exp->right);
+        //
+        // In retrospect, this appears to be extremely absurd: The lambda
+        // body is essentially a function body in, say, python; If this
+        // is true, why evaluate the fuction body without any parameter
+        // given? What should be done when the function is actually applied
+        // to some parameters?
+        //
+        // Moreover, doing _eval() here does lead to runtime error
         return exp;
     }
     else if (exp->node_type == NODE_TYPE_APP)
