@@ -1,3 +1,4 @@
+#include <dmalloc.h>
 #include "binding.h"
 
 static struct binding* BINDING_HEAD = NULL;

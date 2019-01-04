@@ -1,7 +1,8 @@
 .PHONY: test example tags
 
 lambda: parser.tab.c lexer.yy.c lambda.h lambda.c binding.h binding.c main.c
-	gcc -std=c99 -g -o $@ lexer.yy.c parser.tab.c lambda.c binding.c main.c
+	gcc -std=c99 -g -Iinclude -Llib -DDMALLOC \
+		lexer.yy.c parser.tab.c lambda.c binding.c main.c -ldmalloc -o $@
 
 lexer.yy.c: lexer.l
 	flex -o $@ $<

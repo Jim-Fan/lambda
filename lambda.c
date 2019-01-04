@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <setjmp.h>
+#include <dmalloc.h>
 #include "lambda.h"
 #include "binding.h"
 
