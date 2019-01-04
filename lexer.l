@@ -3,6 +3,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <dmalloc.h>
 #include "parser.tab.h"
 
 %}

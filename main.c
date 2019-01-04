@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <getopt.h>
+#include <dmalloc.h>
 #include "lambda.h"
 
 #ifdef YYDEBUG

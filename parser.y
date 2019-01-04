@@ -3,6 +3,7 @@
 %{
 #include <stdio.h>
 #include <string.h>
+#include <dmalloc.h>
 #include "lambda.h"
 
     /* Lexer would provide */
