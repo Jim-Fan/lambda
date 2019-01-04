@@ -1,8 +1,12 @@
 .PHONY: test example tags
 
-lambda: parser.tab.c lexer.yy.c lambda.h lambda.c binding.h binding.c main.c
-	gcc -std=c99 -g -Iinclude -Llib -DDMALLOC \
-		lexer.yy.c parser.tab.c lambda.c binding.c main.c -ldmalloc -o $@
+OBJECTS=parser.tab.o lexer.yy.o lambda.o binding.o main.o
+
+lambda: $(OBJECTS)
+	gcc -std=c99 -g -Iinclude -Llib -DDMALLOC $(OBJECTS) -ldmalloc -o $@
+
+%.o: %.c
+	gcc -std=c99 -g -DDMALLOC -c $<
 
 lexer.yy.c: lexer.l
 	flex -o $@ $<
