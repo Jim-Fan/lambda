@@ -8,6 +8,7 @@ extern int yydebug;
 yydebug = 0;
 #endif
 
+extern int yylex_destroy(void);
 extern int yyparse();
 
 void do_getopt(int, char**);
@@ -37,7 +38,7 @@ int main(int argc, char** argv)
     */
 
 CLEAN_UP:
-    //ncl_cleanup();
+    yylex_destroy();
     return result;
 }
 
