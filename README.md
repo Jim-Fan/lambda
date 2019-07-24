@@ -1,17 +1,6 @@
 lambda: Interpreter for untyped lambda calculus
 ===============================================
 
-Closing remark at end of 2018
------------------------------
-While attempt has been made to rectify evaluation behaviour, I
-discover that the existing method is too naive and conceptually
-wrong. Currently I am studying [Lua](https://www.lua.org/) for
-correct way to implementing an interpreter, theory and practice.
-In retrospect, lexing and parsing of lambda calculus are achieved.
-"Rudimentary" as the evaluation is, failure was indeed anticipated
-and is now the fuel for driving further study and enhancement.
-
-
 Summary
 -------
 Intended to acquire better understanding of shift-reduce parsing
