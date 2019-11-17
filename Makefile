@@ -14,4 +14,4 @@ edit:
 	vim -c 'vsplit|b2' lexer.l parser.y
 
 clean:
-	rm -f *.tab.[hc] *.yy.[hc] *.o *~ lambda *.exe *.stackdump tags parser.output
+	rm -f *.tab.[hc] *.yy.[hc] *.o *~ lambda *.stackdump tags parser.output
