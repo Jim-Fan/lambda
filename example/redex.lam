@@ -1,0 +1,6 @@
+# In lambda calculus, below expression is expected to yield 10 as
+# result. In current implementation, the whole input expression is 
+# returned instead, which is quite odd. This is because, in lambda.c::_eval(),
+# when top level expression is a lambda, further evaluation to its 
+# body is not carried out
+/x. (/i.i) 10;

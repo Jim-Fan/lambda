@@ -1,0 +1,20 @@
+<syntax tree>
+| LAMBDA(9007)
+  | VAR(9006, bound to 9006) x
+  | APP(9005)
+    | LAMBDA(9003)
+      | VAR(9002, bound to 9002) i
+      | VAR(9001, bound to 9002) i
+    | NUMBER(9004) 10
+
+<after>
+| LAMBDA(9007)
+  | VAR(9006, bound to 9006) x
+  | APP(9005)
+    | LAMBDA(9003)
+      | VAR(9002, bound to 9002) i
+      | VAR(9001, bound to 9002) i
+    | NUMBER(9004) 10
+
+<binding>
+
