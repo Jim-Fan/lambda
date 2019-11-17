@@ -10,13 +10,6 @@ extern int yylineno;
     /* Parser should provide */
 void yyerror(char* s)
 {
-    /* Can I do better than saying "ncl: syntax error" */
-    /* fprintf(stderr, "ncl: %s\n", s); */
-
-    /* Too bad, yytext is empty string */
-    /* fprintf(stderr, "ncl: syntax error \"%s\"\n", yytext); */
-
-    /* I am wondering how and if I should pass argument s */
     fprintf(stderr, "lambda: syntax error on line %d\n", yylineno);
 }
 
@@ -24,30 +17,16 @@ void yyerror(char* s)
 
         /* typedef of YYSTYPE i.e. type of yylval */
 %union {
-    unsigned int n;
-    unsigned int bif;
-    unsigned int op;
-    unsigned int e;
-    unsigned int* a;
+    char c;
 }
 
         /* Return value by lexer's rule, which is part of yylex() */
         /* Coded as C enum in parser header */
-%token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET VAR LAMBDA DOT
-%token <n> NUMBER
+%token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET
+%token <c> VAR FUNC
 
-        /* Associativity and precedence, not applicable here */
-        /* This is a deep topic, definitely deserve investigation */
-/* %nonassoc <fn> CMP */
-/* %left TIMES DIV */
-
-        /* Map data type of each grammatical construct */
-/*
-%type <bif> bif
-%type <op> op
-%type <e> scalar exp
-%type <a> array
-*/
+        /* Associativity and precedence */
+%left FUNC
 
         /* Top level production rule */
 %start calclist
@@ -56,23 +35,17 @@ void yyerror(char* s)
 
 
 exp:
-    app
-    |
-    lambda
+    application
     |
     VAR
-    |
-    NUMBER
     |
     L_BRACKET exp R_BRACKET
 ;
 
-lambda:
-    LAMBDA VAR DOT exp
-;
-
-app:
-    exp exp
+application:
+    FUNC exp        { printf("===> applying <%c exp>\n", $1); }
+    |
+    exp FUNC exp    { printf("===> applying <exp %c exp>\n", $2); }
 ;
 
         /****************    Parser main loop ***************/

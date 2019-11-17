@@ -35,14 +35,8 @@
 
 [ \t\r\n]+    { /* Skip blanks */ }
 
-                /* Number */
-0|[1-9][0-9]*   { yylval.n = atoi(yytext);
-                  return NUMBER;
-                }
-
-[a-z]       { return VAR; }
-"."         { return DOT; }
-"/"         { return LAMBDA; }
+[a-z]       { yylval.c = yytext[0]; return VAR; }
+[A-Z]       { yylval.c = yytext[0]; return FUNC; }
 
 .           { // Push back the offending char, let UNKNOWN_CHAR rules handle it
               yyless(yyleng-1);
