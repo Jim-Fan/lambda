@@ -31,6 +31,10 @@ void yyerror(char* s)
         /* Top level production rule */
 %start calclist
 
+%printer { fprintf(yyo, "%c", $$); } VAR;
+%printer { fprintf(yyo, "%c", $$); } FUNC;
+%printer { fprintf(yyo, "%p", $$); } exp;
+%printer { fprintf(yyo, "%p", $$); } application;
 %%
 
 
@@ -43,9 +47,9 @@ exp:
 ;
 
 application:
-    FUNC exp        { printf("===> applying <%c exp>\n", $1); }
+    FUNC exp
     |
-    exp FUNC exp    { printf("===> applying <exp %c exp>\n", $2); }
+    exp FUNC exp
 ;
 
         /****************    Parser main loop ***************/
