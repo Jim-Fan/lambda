@@ -4,7 +4,6 @@
 
 #ifdef YYDEBUG
 extern int yydebug;
-yydebug = 0;
 #endif
 
 extern int yyparse();
