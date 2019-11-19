@@ -3,6 +3,9 @@
 #include <setjmp.h>
 #include "lambda.h"
 
+extern int fileno(FILE*);
+extern int isatty(int);
+
 static struct binding* BINDING_HEAD = NULL;
 static jmp_buf eval_err_jmpbuf;             // non-local escape of _eval()
 
