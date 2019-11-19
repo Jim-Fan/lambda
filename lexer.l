@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "parser.tab.h"
 
+extern int fileno(const FILE*);
 %}
 
                 /* Define named regexp pattern here */
