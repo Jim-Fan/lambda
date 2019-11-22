@@ -35,6 +35,8 @@ void yyerror(char* s)
 %printer { fprintf(yyo, "%c", $$); } FUNC;
 %printer { fprintf(yyo, "%p", $$); } exp;
 %printer { fprintf(yyo, "%p", $$); } application;
+%printer { fprintf(yyo, "%p", $$); } monadic;
+%printer { fprintf(yyo, "%p", $$); } dyadic;
 %%
 
 
@@ -47,8 +49,16 @@ exp:
 ;
 
 application:
-    FUNC exp
+    monadic
     |
+    dyadic
+;
+
+monadic:
+    FUNC exp
+;
+
+dyadic:
     exp FUNC exp
 ;
 
