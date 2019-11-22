@@ -5,7 +5,6 @@
 
 #ifdef YYDEBUG
 extern int yydebug;
-yydebug = 1;
 #endif
 
 extern int yyparse();
@@ -19,6 +18,10 @@ static void sig_handler(int signal)
 
 int main(void)
 {
+#ifdef YYDEBUG
+    yydebug = 1;
+#endif
+
     if (signal(SIGINT, sig_handler) == SIG_ERR)
     {
         fprintf(stderr, "Error installing signal handler, continue\n");
