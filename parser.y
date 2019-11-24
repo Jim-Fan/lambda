@@ -22,7 +22,7 @@ void yyerror(char* s)
 
         /* Return value by lexer's rule, which is part of yylex() */
         /* Coded as C enum in parser header */
-%token COMMENT_LINE EOE EOL L_BRACKET R_BRACKET
+%token COMMENT_LINE EOE L_BRACKET R_BRACKET
 %token <c> VAR FUNC
 
         /* Associativity and precedence */
