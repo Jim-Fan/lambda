@@ -9,11 +9,11 @@ extern int isatty(int);
 static struct binding* BINDING_HEAD = NULL;
 static jmp_buf eval_err_jmpbuf;             // non-local escape of _eval()
 
-struct node* new_node(NODE_TYPE node_type)
+struct ast_node* new_node(NODE_TYPE node_type)
 {
     static unsigned int NEXT_VAR_ID = 9000;
 
-    struct node* nd = (struct node*)malloc(sizeof(struct node));
+    struct ast_node* nd = (struct ast_node*)malloc(sizeof(struct ast_node));
     nd->node_type = node_type;
     nd->var_id = ++NEXT_VAR_ID;         // TODO: create by gensym
 
@@ -28,23 +28,23 @@ struct node* new_node(NODE_TYPE node_type)
     return nd;
 }
 
-struct node* new_num_node(unsigned int n)
+struct ast_node* new_num_node(unsigned int n)
 {
-    struct node* nd = new_node(NODE_TYPE_NUMBER);
+    struct ast_node* nd = new_node(NODE_TYPE_NUMBER);
     nd->num_value = n;
     return nd;
 }
 
-struct node* new_var_node(char c)
+struct ast_node* new_var_node(char c)
 {
-    struct node* nd = new_node(NODE_TYPE_VAR);
+    struct ast_node* nd = new_node(NODE_TYPE_VAR);
     nd->var_name = c;
     return nd;
 }
 
-struct node* new_lambda_node(struct node* var, struct node* exp)
+struct ast_node* new_lambda_node(struct ast_node* var, struct ast_node* exp)
 {
-    struct node* nd = new_node(NODE_TYPE_LAMBDA);
+    struct ast_node* nd = new_node(NODE_TYPE_LAMBDA);
 
     // The variable in lambda abstraction is bounded
     // And is bounded to itself
@@ -60,7 +60,7 @@ struct node* new_lambda_node(struct node* var, struct node* exp)
     return nd;
 }
 
-void bound_var(struct node* var, struct node* exp)
+void bound_var(struct ast_node* var, struct ast_node* exp)
 {
     if (exp->node_type == NODE_TYPE_VAR)
     {
@@ -85,15 +85,15 @@ void bound_var(struct node* var, struct node* exp)
     }
 }
 
-struct node* new_app_node(struct node* exp1, struct node* exp2)
+struct ast_node* new_app_node(struct ast_node* exp1, struct ast_node* exp2)
 {
-    struct node* nd = new_node(NODE_TYPE_APP);
+    struct ast_node* nd = new_node(NODE_TYPE_APP);
     nd->left = exp1;
     nd->right = exp2;
     return nd;
 }
 
-void _pprint(struct node* root, unsigned int depth, struct node* exp)
+void _pprint(struct ast_node* root, unsigned int depth, struct ast_node* exp)
 {
     if (exp->node_type == NODE_TYPE_VAR)
     {
@@ -195,12 +195,12 @@ FREE_OR_CYCLE_FOUND:
     }
 }
 
-void pprint(struct node* exp)
+void pprint(struct ast_node* exp)
 {
     _pprint(exp, 0, exp);
 }
 
-void free_node(struct node* exp)
+void free_node(struct ast_node* exp)
 {
     // free children first, then the node itself
     if (exp->node_type == NODE_TYPE_VAR)
@@ -225,13 +225,13 @@ void free_node(struct node* exp)
     free(exp);
 }
 
-void handle_syntax_tree(struct node* exp)
+void handle_syntax_tree(struct ast_node* exp)
 {
     printf("<syntax tree>\n");
     pprint(exp);
     printf("\n");
 
-    struct node* result = eval(exp);
+    struct ast_node* result = eval(exp);
 
     // Only print eval result and binding if no eval error
     if (result != NULL)
@@ -252,7 +252,7 @@ void handle_syntax_tree(struct node* exp)
     free_node(exp);
 }
 
-struct node* _eval(struct node* exp)
+struct ast_node* _eval(struct ast_node* exp)
 {
     struct binding* b = NULL;
 
@@ -289,8 +289,8 @@ struct node* _eval(struct node* exp)
 
         // reduce E1 to the form of /k.E3 so that new binding
         // can be made
-        struct node* E1 = _eval(exp->left);
-        struct node* E2 = _eval(exp->right);
+        struct ast_node* E1 = _eval(exp->left);
+        struct ast_node* E2 = _eval(exp->right);
 
         // suppose exp->left is a VAR:
         //   after eval, if E1 is still a VAR, that means it is a free
@@ -322,7 +322,7 @@ struct node* _eval(struct node* exp)
     }
 }
 
-struct node* eval(struct node* exp)
+struct ast_node* eval(struct ast_node* exp)
 {
     // clear binding from previous eval
     if (BINDING_HEAD != NULL)

@@ -25,7 +25,7 @@ void yyerror(const char* err_msg)
     unsigned int e;
     unsigned int* a;
     char c;
-    struct node* nd;
+    struct ast_node* nd;
 }
 
         /* Return value by lexer's rule, which is part of yylex() */
