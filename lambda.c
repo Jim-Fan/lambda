@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include "lambda.h"
+#include "secd/secd.h"
 
 extern int fileno(FILE*);
 extern int isatty(int);
@@ -231,7 +232,8 @@ void handle_syntax_tree(struct ast_node* exp)
     pprint(exp);
     printf("\n");
 
-    struct ast_node* result = eval(exp);
+    struct ast_node* result = NULL; // eval(exp);
+    secd_eval(exp);
 
     // Only print eval result and binding if no eval error
     if (result != NULL)
